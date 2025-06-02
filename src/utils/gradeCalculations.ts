@@ -28,9 +28,9 @@ export const calculateCourseGrade = (course: Course): GradeInfo => {
     const categoryAssignments = assignmentsByCategory[category.id] || [];
     
     if (categoryAssignments.length > 0) {
-      // Calculate average for this category (already in 0-100 range)
+      // Calculate average for this category as raw score
       const categoryTotal = categoryAssignments.reduce((sum, assignment) => 
-        sum + (assignment.score / assignment.maxScore) * 100, 0
+        sum + (assignment.score / assignment.maxScore), 0
       );
       const categoryAverage = categoryTotal / categoryAssignments.length;
       
@@ -40,7 +40,7 @@ export const calculateCourseGrade = (course: Course): GradeInfo => {
     }
   });
 
-  // Calculate final grade out of 100
+  // Calculate final grade as a number out of 100
   const finalGrade = totalWeight > 0 ? (totalWeightedScore / totalWeight) * 100 : 0;
   
   return {

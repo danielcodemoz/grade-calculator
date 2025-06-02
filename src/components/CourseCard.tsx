@@ -70,7 +70,7 @@ export const CourseCard = ({ course, onUpdate, onDelete, darkMode }: CourseCardP
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className={`px-4 py-2 rounded-full bg-gradient-to-r ${getGradeColorClasses(gradeInfo.color)} font-bold text-lg shadow-lg`}>
-              {gradeInfo.letterGrade} ({gradeInfo.percentage.toFixed(1)}%)
+              {gradeInfo.letterGrade} ({gradeInfo.percentage.toFixed(1)}/100)
             </div>
             <div className="text-right">
               <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
@@ -85,7 +85,7 @@ export const CourseCard = ({ course, onUpdate, onDelete, darkMode }: CourseCardP
                 Progress
               </span>
               <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {gradeInfo.percentage.toFixed(1)}%
+                {gradeInfo.percentage.toFixed(1)}/100
               </span>
             </div>
             <Progress 

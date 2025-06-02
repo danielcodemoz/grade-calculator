@@ -120,7 +120,7 @@ export const AddAssignmentDialog = ({
               <Input
                 id="score"
                 type="number"
-                placeholder="95"
+                placeholder="85"
                 value={formData.score}
                 onChange={(e) => setFormData({ ...formData, score: e.target.value })}
                 className={darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''}
@@ -156,7 +156,7 @@ export const AddAssignmentDialog = ({
                     ? 'text-blue-600' 
                     : 'text-orange-600'
                 }`}>
-                  {((parseFloat(formData.score) / parseFloat(formData.maxScore)) * 100).toFixed(1)}%
+                  {parseFloat(formData.score).toFixed(1)}/{parseFloat(formData.maxScore).toFixed(1)} ({((parseFloat(formData.score) / parseFloat(formData.maxScore)) * 100).toFixed(1)}/100)
                 </span>
               </div>
             </div>

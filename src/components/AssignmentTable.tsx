@@ -110,6 +110,7 @@ export const AssignmentTable = ({ course, onUpdate, darkMode }: AssignmentTableP
                   key={assignment.id}
                   className={`${darkMode ? 'border-gray-600 hover:bg-gray-600/50' : 'border-gray-200 hover:bg-gray-50'}`}
                 >
+                  {/* Assignment Name Column */}
                   <TableCell>
                     {editingAssignment === assignment.id ? (
                       <Input
@@ -124,6 +125,7 @@ export const AssignmentTable = ({ course, onUpdate, darkMode }: AssignmentTableP
                     )}
                   </TableCell>
 
+                  {/* Category Column */}
                   <TableCell>
                     {editingAssignment === assignment.id ? (
                       <Select
@@ -148,6 +150,7 @@ export const AssignmentTable = ({ course, onUpdate, darkMode }: AssignmentTableP
                     )}
                   </TableCell>
 
+                  {/* Score Column */}
                   <TableCell>
                     {editingAssignment === assignment.id ? (
                       <div className="flex items-center space-x-1">
@@ -172,12 +175,14 @@ export const AssignmentTable = ({ course, onUpdate, darkMode }: AssignmentTableP
                     )}
                   </TableCell>
 
+                  {/* Grade Column */}
                   <TableCell>
                     <Badge className={getGradeColor(assignment.score, assignment.maxScore)}>
-                      {((assignment.score / assignment.maxScore) * 100).toFixed(1)}%
+                      {assignment.score.toFixed(1)}/{assignment.maxScore.toFixed(1)} ({((assignment.score / assignment.maxScore) * 100).toFixed(1)}/100)
                     </Badge>
                   </TableCell>
 
+                  {/* Actions Column */}
                   <TableCell>
                     <div className="flex items-center space-x-1">
                       {editingAssignment === assignment.id ? (
