@@ -37,8 +37,8 @@ export const AddAssignmentDialog = ({
     const newAssignment: Assignment = {
       id: Date.now().toString(),
       name: formData.name.trim(),
-      score: parseFloat(formData.score),
-      maxScore: parseFloat(formData.maxScore),
+      score: Math.min(parseFloat(formData.score), 100),
+      maxScore: Math.min(parseFloat(formData.maxScore), 100),
       categoryId: formData.categoryId
     };
 
@@ -64,6 +64,20 @@ export const AddAssignmentDialog = ({
                      formData.maxScore &&
                      parseFloat(formData.score) >= 0 &&
                      parseFloat(formData.maxScore) > 0;
+
+  const handleScoreChange = (value: string) => {
+    const numValue = parseFloat(value);
+    if (isNaN(numValue) || numValue <= 100) {
+      setFormData({ ...formData, score: value });
+    }
+  };
+
+  const handleMaxScoreChange = (value: string) => {
+    const numValue = parseFloat(value);
+    if (isNaN(numValue) || numValue <= 100) {
+      setFormData({ ...formData, maxScore: value });
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -115,28 +129,30 @@ export const AddAssignmentDialog = ({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="score" className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Points Earned
+                Points Earned (max 100)
               </Label>
               <Input
                 id="score"
                 type="number"
                 placeholder="85"
                 value={formData.score}
-                onChange={(e) => setFormData({ ...formData, score: e.target.value })}
+                onChange={(e) => handleScoreChange(e.target.value)}
+                max="100"
                 className={darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="maxScore" className={darkMode ? 'text-gray-300' : 'text-gray-700'}>
-                Total Points
+                Total Points (max 100)
               </Label>
               <Input
                 id="maxScore"
                 type="number"
                 placeholder="100"
                 value={formData.maxScore}
-                onChange={(e) => setFormData({ ...formData, maxScore: e.target.value })}
+                onChange={(e) => handleMaxScoreChange(e.target.value)}
+                max="100"
                 className={darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''}
               />
             </div>

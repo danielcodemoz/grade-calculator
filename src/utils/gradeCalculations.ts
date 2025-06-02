@@ -35,13 +35,13 @@ export const calculateCourseGrade = (course: Course): GradeInfo => {
       const categoryAverage = categoryTotal / categoryAssignments.length;
       
       // Add to weighted total
-      totalWeightedScore += (categoryAverage * category.weight) / 100;
+      totalWeightedScore += (categoryAverage * category.weight);
       totalWeight += category.weight;
     }
   });
 
-  // Calculate final grade as a number out of 100
-  const finalGrade = totalWeight > 0 ? (totalWeightedScore / totalWeight) * 100 : 0;
+  // Calculate final grade as average of all categories (not sum)
+  const finalGrade = totalWeight > 0 ? totalWeightedScore / totalWeight : 0;
   
   return {
     percentage: Math.round(finalGrade * 100) / 100,

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -39,7 +38,12 @@ export const AssignmentTable = ({ course, onUpdate, darkMode }: AssignmentTableP
 
     const updatedAssignments = course.assignments.map(assignment =>
       assignment.id === editingAssignment
-        ? { ...assignment, ...editForm }
+        ? { 
+            ...assignment, 
+            ...editForm,
+            score: Math.min(editForm.score, 100),
+            maxScore: Math.min(editForm.maxScore, 100)
+          }
         : assignment
     );
 
@@ -68,6 +72,20 @@ export const AssignmentTable = ({ course, onUpdate, darkMode }: AssignmentTableP
     if (percentage >= 70) return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
     if (percentage >= 60) return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300';
     return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+  };
+
+  const handleScoreChange = (value: string | number) => {
+    const numValue = typeof value === 'string' ? parseFloat(value) : value;
+    if (!isNaN(numValue) && numValue <= 100) {
+      setEditForm({ ...editForm, score: numValue || 0 });
+    }
+  };
+
+  const handleMaxScoreChange = (value: string | number) => {
+    const numValue = typeof value === 'string' ? parseFloat(value) : value;
+    if (!isNaN(numValue) && numValue <= 100) {
+      setEditForm({ ...editForm, maxScore: numValue || 0 });
+    }
   };
 
   if (course.assignments.length === 0) {
@@ -157,14 +175,16 @@ export const AssignmentTable = ({ course, onUpdate, darkMode }: AssignmentTableP
                         <Input
                           type="number"
                           value={editForm.score}
-                          onChange={(e) => setEditForm({ ...editForm, score: parseFloat(e.target.value) || 0 })}
+                          onChange={(e) => handleScoreChange(e.target.value)}
+                          max="100"
                           className={`w-16 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''}`}
                         />
                         <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>/</span>
                         <Input
                           type="number"
                           value={editForm.maxScore}
-                          onChange={(e) => setEditForm({ ...editForm, maxScore: parseFloat(e.target.value) || 0 })}
+                          onChange={(e) => handleMaxScoreChange(e.target.value)}
+                          max="100"
                           className={`w-16 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : ''}`}
                         />
                       </div>
