@@ -28,7 +28,7 @@ export const calculateCourseGrade = (course: Course): GradeInfo => {
     const categoryAssignments = assignmentsByCategory[category.id] || [];
     
     if (categoryAssignments.length > 0) {
-      // Calculate average for this category
+      // Calculate average for this category (already in 0-100 range)
       const categoryTotal = categoryAssignments.reduce((sum, assignment) => 
         sum + (assignment.score / assignment.maxScore) * 100, 0
       );
@@ -40,64 +40,64 @@ export const calculateCourseGrade = (course: Course): GradeInfo => {
     }
   });
 
-  // Normalize if weights don't add up to 100%
-  const percentage = totalWeight > 0 ? (totalWeightedScore / totalWeight) * 100 : 0;
+  // Calculate final grade out of 100
+  const finalGrade = totalWeight > 0 ? (totalWeightedScore / totalWeight) * 100 : 0;
   
   return {
-    percentage: Math.round(percentage * 100) / 100,
-    letterGrade: getLetterGrade(percentage),
-    gpa: getGPA(percentage),
-    color: getGradeColor(percentage)
+    percentage: Math.round(finalGrade * 100) / 100,
+    letterGrade: getLetterGrade(finalGrade),
+    gpa: getGPA(finalGrade),
+    color: getGradeColor(finalGrade)
   };
 };
 
-export const getLetterGrade = (percentage: number): string => {
-  if (percentage >= 97) return 'A+';
-  if (percentage >= 93) return 'A';
-  if (percentage >= 90) return 'A-';
-  if (percentage >= 87) return 'B+';
-  if (percentage >= 83) return 'B';
-  if (percentage >= 80) return 'B-';
-  if (percentage >= 77) return 'C+';
-  if (percentage >= 73) return 'C';
-  if (percentage >= 70) return 'C-';
-  if (percentage >= 67) return 'D+';
-  if (percentage >= 63) return 'D';
-  if (percentage >= 60) return 'D-';
+export const getLetterGrade = (grade: number): string => {
+  if (grade >= 97) return 'A+';
+  if (grade >= 93) return 'A';
+  if (grade >= 90) return 'A-';
+  if (grade >= 87) return 'B+';
+  if (grade >= 83) return 'B';
+  if (grade >= 80) return 'B-';
+  if (grade >= 77) return 'C+';
+  if (grade >= 73) return 'C';
+  if (grade >= 70) return 'C-';
+  if (grade >= 67) return 'D+';
+  if (grade >= 63) return 'D';
+  if (grade >= 60) return 'D-';
   return 'F';
 };
 
-export const getGPA = (percentage: number): number => {
-  if (percentage >= 97) return 4.0;
-  if (percentage >= 93) return 4.0;
-  if (percentage >= 90) return 3.7;
-  if (percentage >= 87) return 3.3;
-  if (percentage >= 83) return 3.0;
-  if (percentage >= 80) return 2.7;
-  if (percentage >= 77) return 2.3;
-  if (percentage >= 73) return 2.0;
-  if (percentage >= 70) return 1.7;
-  if (percentage >= 67) return 1.3;
-  if (percentage >= 63) return 1.0;
-  if (percentage >= 60) return 0.7;
+export const getGPA = (grade: number): number => {
+  if (grade >= 97) return 4.0;
+  if (grade >= 93) return 4.0;
+  if (grade >= 90) return 3.7;
+  if (grade >= 87) return 3.3;
+  if (grade >= 83) return 3.0;
+  if (grade >= 80) return 2.7;
+  if (grade >= 77) return 2.3;
+  if (grade >= 73) return 2.0;
+  if (grade >= 70) return 1.7;
+  if (grade >= 67) return 1.3;
+  if (grade >= 63) return 1.0;
+  if (grade >= 60) return 0.7;
   return 0.0;
 };
 
-export const getGradeColor = (percentage: number): string => {
-  if (percentage >= 90) return 'emerald';
-  if (percentage >= 80) return 'green';
-  if (percentage >= 70) return 'yellow';
-  if (percentage >= 60) return 'orange';
+export const getGradeColor = (grade: number): string => {
+  if (grade >= 90) return 'emerald';
+  if (grade >= 80) return 'green';
+  if (grade >= 70) return 'yellow';
+  if (grade >= 60) return 'orange';
   return 'red';
 };
 
-export const getMotivationalMessage = (percentage: number): string => {
-  if (percentage >= 95) return "You're absolutely crushing it! 🔥🏆";
-  if (percentage >= 90) return "Excellent work! Keep it up! ⭐";
-  if (percentage >= 85) return "Great job! You're doing amazing! 🌟";
-  if (percentage >= 80) return "Good work! Keep pushing forward! 💪";
-  if (percentage >= 75) return "You're on the right track! 📈";
-  if (percentage >= 70) return "Keep working hard! You've got this! 💯";
-  if (percentage >= 60) return "Don't give up! Improvement is coming! 🚀";
+export const getMotivationalMessage = (grade: number): string => {
+  if (grade >= 95) return "You're absolutely crushing it! 🔥🏆";
+  if (grade >= 90) return "Excellent work! Keep it up! ⭐";
+  if (grade >= 85) return "Great job! You're doing amazing! 🌟";
+  if (grade >= 80) return "Good work! Keep pushing forward! 💪";
+  if (grade >= 75) return "You're on the right track! 📈";
+  if (grade >= 70) return "Keep working hard! You've got this! 💯";
+  if (grade >= 60) return "Don't give up! Improvement is coming! 🚀";
   return "Every step forward counts! Keep going! 💪";
 };
