@@ -1,16 +1,20 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Moon, Sun, GraduationCap } from 'lucide-react';
+import { Plus, Moon, Sun, GraduationCap, Download } from 'lucide-react';
 import { CourseCard } from '@/components/CourseCard';
 import { AddCourseDialog } from '@/components/AddCourseDialog';
 import { Course } from '@/types/course';
+import { exportCoursesToPDF } from '@/utils/pdfExport';
 
 const Index = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [darkMode, setDarkMode] = useState(false);
   const [showAddCourse, setShowAddCourse] = useState(false);
+
+  const handleExportPDF = () => {
+    exportCoursesToPDF(courses);
+  };
 
   const addCourse = (course: Course) => {
     setCourses([...courses, { ...course, id: Date.now().toString() }]);
@@ -63,6 +67,17 @@ const Index = () => {
             >
               {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
+
+            {courses.length > 0 && (
+              <Button
+                variant="outline"
+                onClick={handleExportPDF}
+                className={`${darkMode ? 'border-gray-600 text-gray-300 hover:bg-gray-800' : ''}`}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Export PDF
+              </Button>
+            )}
             
             <Button
               onClick={() => setShowAddCourse(true)}
